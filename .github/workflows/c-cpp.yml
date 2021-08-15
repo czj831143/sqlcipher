@@ -1,0 +1,26 @@
+name: C/C++ CI
+
+on:
+  push:
+    branches: [ v2.0-stable ]
+  pull_request:
+    branches: [ v2.0-stable ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: configure
+      run: ./configure --enable-tempstore=yes CFLAGS="-DSQLITE_HAS_CODEC" LDFLAGS="-lcrypto"
+    - name: make
+      run: make
+    - name: zip
+      run: zip all.zip ./*
+    - name: Upload artifact
+      uses: actions/upload-artifact@master
+      with:
+        name: OpenWrt firmware
+        path: ./all.zip
