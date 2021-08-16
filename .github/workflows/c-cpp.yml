@@ -13,8 +13,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: wget1
+      run: wget -O config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=HEAD'
+    - name: wget2
+      run: wget -O config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=HEAD'
     - name: configure
-      run: ./configure --enable-tempstore=yes CFLAGS="-DSQLITE_HAS_CODEC" LDFLAGS="-lcrypto"
+      run: ./configure --enable-tempstore=yes CFLAGS="-DSQLITE_HAS_CODEC" LDFLAGS="-lcrypto"  --host=aarch64
     - name: make
       run: make
     - name: zip
